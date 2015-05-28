@@ -24,8 +24,11 @@ var arrayBufferToFloat = function (ab) {
 */
 var soilZero = 255.;
 var soilSlope = -1.4;
+// .4   --> 8    --> 60
+//  7.0 --> 11.5 --> 670
+
 var lightZero = 0.;
-var lightSlope = 25.;
+var lightSlope = 25/100.;
 
 var app = {
     initialize: function() {
@@ -51,8 +54,8 @@ var app = {
 //wlz.innerHTML = "Initialize";
         var listItem = document.createElement('li'),
             html = '<b>' + device.name + '</b><br/>' +
-                'RSSI: ' + device.rssi + '&nbsp;|&nbsp;' +
-                'Advertising: ' + device.advertising + '<br/>' +
+//                'RSSI: ' + device.rssi + '&nbsp;|&nbsp;' +
+//                'Advertising: ' + device.advertising + '<br/>' +
                 device.uuid;
 //wlz.innerHTML = "Name="+device.name;
         listItem.setAttribute('uuid', device.uuid);
@@ -75,8 +78,8 @@ var app = {
 //wlz.innerHTML = "Data=" + a[0];
         if      (a[0] < 1024) {data0.innerHTML = a[0]/10.;}
         else if (a[0] < 2048) {data1.innerHTML = (a[0]-1024);}
-        else if (a[0] < 3072) {data2.innerHTML = Math.round((a[0]-2048-soilZero)/soilSlope);}
-        else                  {data3.innerHTML = Math.round((a[0]-3072-lightZero)/lightSlope*10)/10;}
+        else if (a[0] < 3072) {data2.innerHTML = Math.max(0,Math.round((a[0]-2048-soilZero)/soilSlope));}
+        else                  {data3.innerHTML = Math.max(0,Math.round((a[0]-3072-lightZero)/lightSlope*10)/10);}
     },
     disconnect: function() {
         deviceUUID.innerHTML = "Water Tracker";
