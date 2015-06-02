@@ -36,9 +36,7 @@ var app = {
         detailPage.hidden = true;
     },
     bindEvents: function() {
-//wlz.innerHTML = "Bind Events";
         document.addEventListener('deviceready', this.onDeviceReady, false);
-//wlz.innerHTML = "deviceready";
         refreshButton.addEventListener('touchstart', this.refreshDeviceList, false);
         closeButton.addEventListener('touchstart', this.disconnect, false);
         deviceList.addEventListener('touchstart', this.connect, false); // assume not scrolling
@@ -47,17 +45,17 @@ var app = {
         app.refreshDeviceList();
     },
     refreshDeviceList: function() {
+        $("#devicelist").hide();
+        $("#notfound").show();
         deviceList.innerHTML = ''; // empties the list
         rfduino.discover(5, app.onDiscoverDevice, app.onError);
     },
     onDiscoverDevice: function(device) {
-//wlz.innerHTML = "Initialize";
+        $("#notfound").hide();
+        $("#devicelist").show();
         var listItem = document.createElement('li'),
             html = '<b>' + device.name + '</b><br/>' +
-//                'RSSI: ' + device.rssi + '&nbsp;|&nbsp;' +
-//                'Advertising: ' + device.advertising + '<br/>' +
                 device.uuid;
-//wlz.innerHTML = "Name="+device.name;
         listItem.setAttribute('uuid', device.uuid);
         listItem.innerHTML = html;
         deviceList.appendChild(listItem);
